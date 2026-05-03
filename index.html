@@ -595,7 +595,7 @@
 
 <!-- HEADER -->
 <div class="chapeau">
-  In Search of Lost Time &nbsp;·&nbsp; Marcel Proust &nbsp;·&nbsp; 1,500,000 words
+  In Search of Lost Time &nbsp;·&nbsp; Marcel Proust &nbsp;·&nbsp; 1,500,000 words &nbsp;·&nbsp; <span id="dayMarker">Day 1 — started March 14, 2026</span>
 </div>
 
 <!-- SITE TITLE -->
@@ -975,7 +975,11 @@ document.getElementById('wInput').addEventListener('keydown', e => { if(e.key===
 // ════════════════════════════════════════════════════
 //  INIT
 // ════════════════════════════════════════════════════
-(function() { if (!loadH().length) addEntry(INIT_W); render(); })();
+(function() {
+  if (!loadH().length) addEntry(INIT_W);
+  render();
+  document.getElementById('dayMarker').textContent = 'Day ' + elapsed() + ' — started March 14, 2026';
+})();
 </script>
 </body>
 </html>
