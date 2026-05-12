@@ -161,6 +161,16 @@
   }
   .hero-sub strong { color: var(--black); font-weight: 500; }
 
+  .hero-updated {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .hero-updated strong { color: var(--black); }
+
   /* ── COMPARISON TABLE ────────────────────────────────────── */
   .compare-block {
     border-top: 1px solid var(--black);
@@ -639,6 +649,7 @@
     &nbsp;·&nbsp;
     <strong id="rateDisplay">—</strong> words / day
   </div>
+  <div class="hero-updated" id="heroUpdated"></div>
 </div>
 
 <!-- COMPARISON TABLE -->
@@ -866,6 +877,9 @@ function render() {
   document.getElementById('heroWords').textContent   = fmt(w);
   document.getElementById('elapsedDays').textContent = d;
   document.getElementById('rateDisplay').textContent = fmt(rate);
+  const updDate = new Date(cur.d + 'T12:00:00');
+  const updFmt  = updDate.toLocaleDateString('en-GB', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+  document.getElementById('heroUpdated').innerHTML   = 'Updated &nbsp;<strong>' + updFmt + '</strong>';
 
   // User bar
   document.getElementById('barPct').textContent   = pct.toFixed(1) + '%';
