@@ -769,6 +769,7 @@
 const TOTAL       = 1500000;
 const START_ISO   = '2026-03-14';
 const INIT_W      = 438900;
+const INIT_DATE   = '2026-05-12';
 const PROUST_RATE = 316; // words/day — 1,500,000 / ~4,748 days (1909–1922)
 
 const VOLS = [
@@ -801,11 +802,11 @@ function projDays(w) {
   return r > 0 ? Math.round((TOTAL - w) / r) : 99999;
 }
 
-function addEntry(w) {
+function addEntry(w, date) {
   const h = loadH();
-  const today = new Date().toISOString().split('T')[0];
-  const e = { d: today, w, p: projDays(w) };
-  const i = h.findIndex(x => x.d === today);
+  const day = date || new Date().toISOString().split('T')[0];
+  const e = { d: day, w, p: projDays(w) };
+  const i = h.findIndex(x => x.d === day);
   if (i >= 0) h[i] = e; else h.push(e);
   saveH(h);
 }
@@ -991,7 +992,9 @@ document.getElementById('wInput').addEventListener('keydown', e => { if(e.key===
 //  INIT
 // ════════════════════════════════════════════════════
 (function() {
-  if (!loadH().length) addEntry(INIT_W);
+  const h = loadH();
+  const cur = h.length ? h[h.length - 1] : null;
+  if (!cur || INIT_DATE > cur.d) addEntry(INIT_W, INIT_DATE);
   render();
   document.getElementById('dayMarker').textContent = 'Day ' + elapsed() + ' — started March 14, 2026';
 })();
