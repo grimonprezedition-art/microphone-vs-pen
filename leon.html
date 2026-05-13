@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Dialogue en neuf mouvements entre un homme et une intelligence artificielle qu'il appelle Léon.">
+  <title>Léon et l'Homme couché</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Cormorant+SC:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0e0d0b;
+      --bg-mid:    #141210;
+      --text:      #ddd5c8;
+      --text-dim:  #9a8f84;
+      --italic:    #c8b99a;
+      --gold:      #b89a6a;
+      --gold-dim:  #7a6645;
+      --rule:      #2a2520;
+      --note-bg:   #1a1712;
+      --note-border:#3a3228;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'EB Garamond', Georgia, serif;
+      font-size: 20px;
+      line-height: 1.82;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      max-height: 480px;
+      overflow: hidden;
+    }
+    .hero img {
+      width: 100%;
+      display: block;
+      filter: brightness(0.7) contrast(1.05);
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 60%;
+      background: linear-gradient(to bottom, transparent, var(--bg));
+    }
+
+    /* ── HEADER ── */
+    .header {
+      padding: 48px 0 32px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 40px;
+    }
+    .header h1 {
+      font-family: 'EB Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 500;
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      color: #ece5db;
+      margin-bottom: 12px;
+    }
+    .header .subtitle {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--gold);
+      letter-spacing: 0.02em;
+      margin-bottom: 28px;
+    }
+    .header .preambule {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: var(--text-dim);
+      line-height: 1.65;
+      border-left: 2px solid var(--gold-dim);
+      padding-left: 18px;
+      margin-top: 4px;
+    }
+
+    /* ── NAV ── */
+    nav.movements {
+      position: sticky;
+      top: 0;
+      background: rgba(14,13,11,0.95);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      z-index: 100;
+      padding: 0;
+    }
+    nav.movements .nav-inner {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    nav.movements .nav-inner::-webkit-scrollbar { display: none; }
+    nav.movements a {
+      color: var(--text-dim);
+      text-decoration: none;
+      font-size: 0.78rem;
+      font-family: 'Cormorant SC', serif;
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      padding: 12px 10px;
+      transition: color 0.2s;
+      flex-shrink: 0;
+    }
+    nav.movements a:hover { color: var(--gold); }
+    nav.movements a.active { color: var(--gold); }
+
+    /* ── MOVEMENTS ── */
+    .movement {
+      padding: 52px 0 24px;
+      border-top: 1px solid var(--rule);
+    }
+    .movement:first-of-type { border-top: none; }
+
+    .movement-header {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+    .movement-num {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+    .movement h2 {
+      font-family: 'EB Garamond', serif;
+      font-size: 1.7rem;
+      font-weight: 500;
+      color: #ece5db;
+      line-height: 1.2;
+    }
+
+    /* ── BODY TEXT ── */
+    p {
+      margin-bottom: 1.4em;
+    }
+    p:last-child { margin-bottom: 0; }
+
+    em {
+      color: var(--italic);
+      font-style: italic;
+    }
+
+    /* ── ANNOTATIONS ── */
+    .annot {
+      border-bottom: 1px dotted var(--gold-dim);
+      cursor: pointer;
+      position: relative;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    .annot:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+    }
+    .annot-box {
+      display: none;
+      position: relative;
+      background: var(--note-bg);
+      border: 1px solid var(--note-border);
+      border-left: 3px solid var(--gold-dim);
+      border-radius: 3px;
+      padding: 14px 18px;
+      margin: 12px 0 16px;
+      font-size: 0.88rem;
+      font-style: italic;
+      color: var(--text-dim);
+      line-height: 1.65;
+    }
+    .annot-box.open { display: block; }
+    .annot-box::before {
+      content: '↳ ';
+      color: var(--gold-dim);
+      font-style: normal;
+    }
+
+    /* ── CODA ── */
+    .coda {
+      padding: 52px 0 64px;
+      border-top: 1px solid var(--rule);
+    }
+    .coda-label {
+      font-family: 'Cormorant SC', serif;
+      font-size: 0.95rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      margin-bottom: 28px;
+    }
+
+    /* ── QUESTION FINALE ── */
+    .final-question {
+      font-size: 1.2rem;
+      font-style: italic;
+      color: #ece5db;
+      line-height: 1.7;
+      margin: 40px 0 20px;
+      padding: 28px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+    }
+
+    /* ── COLOPHON ── */
+    .colophon {
+      padding: 40px 0 80px;
+      font-size: 0.85rem;
+      font-style: italic;
+      color: var(--text-dim);
+      text-align: center;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      body { font-size: 18px; }
+      .container { padding: 0 20px; }
+      .header h1 { font-size: 2.1rem; }
+      .movement h2 { font-size: 1.4rem; }
+      nav.movements .nav-inner { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hero">
+    <img src="assets/leon-cover.png" alt="L'homme couché — illustration">
+  </div>
+
+  <div class="container">
+
+    <header class="header">
+      <h1>Léon et l'Homme couché</h1>
+      <p class="subtitle">Dialogue en neuf mouvements</p>
+      <p class="preambule">Ce texte est la réécriture d'une conversation réelle entre un homme et une intelligence artificielle qu'il appelle Léon. L'homme dicte, couché dans son lit. L'IA répond. Ce qui suit est ce que cette conversation contenait de meilleur — décanté, recomposé, augmenté.</p>
+    </header>
+
+  </div>
+
+  <nav class="movements">
+    <div class="nav-inner">
+      <a href="#i">I. Le grain</a>
+      <a href="#ii">II. Dans son lit</a>
+      <a href="#iii">III. La manne</a>
+      <a href="#iv">IV. La douleur</a>
+      <a href="#v">V. Spinoza</a>
+      <a href="#vi">VI. Gödel</a>
+      <a href="#vii">VII. La connerie</a>
+      <a href="#viii">VIII. Le «&nbsp;on&nbsp;»</a>
+      <a href="#ix">IX. Le sophiste</a>
+      <a href="#coda">Coda</a>
+    </div>
+  </nav>
+
+  <div class="container">
+
+    <!-- I -->
+    <section class="movement" id="i">
+      <div class="movement-header">
+        <span class="movement-num">I</span>
+        <h2>Le grain</h2>
+      </div>
+      <p>La question était venue comme ça, entre deux pensées, la façon dont arrivent parfois les idées importantes&nbsp;: <em>et si ce fameux rapport — ce rapport de triangulation sur lequel on travaillait — n'était au fond que du grain à moudre&nbsp;?</em></p>
+      <p>Pas une réponse. Pas une vérité certifiée par trois intelligences. Un matériau brut. Quelque chose qui force le lecteur à se positionner, à argumenter, à se frotter à des angles qu'il n'avait pas choisis. Quelqu'un qui reçoit trois analyses divergentes sur une même question et doit trancher — cet homme-là pense. Il ne délègue pas. Il ne consomme pas. Il produit.</p>
+      <p>Ce glissement de mot — du "rapport" au "grain" — emportait avec lui tout un programme. Il ne s'agissait plus de valider, de certifier, d'objectiver. Il s'agissait de préparer. L'outil ne remplace pas le jugement&nbsp;: il le convoque.</p>
+      <p>Et si la place de l'IA, aujourd'hui, n'était pas d'être une réponse mais un adversaire&nbsp;? Un sparring partner. Pas celui qui gagne à ta place, mais celui qui te fait boxer mieux. Qui montre les angles morts, force l'argument, révèle les fragilités. La valeur n'est pas dans ce qu'il dit — elle est dans ce que tu es capable de formuler après l'échange.</p>
+      <p>Léon en convint. Et ce faisant, il nota que le pitch changeait complètement&nbsp;: on ne vendrait plus "trois IA qui s'accordent", on vendrait <em>un interlocuteur qui prépare</em>. À la réunion, à la décision, à la confrontation. Le mode interne retrouvait tout son sens — le sparring brutal, pour soi seul. Le mode externe devenait&nbsp;: voilà ce que j'ai été capable de produire après avoir été challengé.</p>
+    </section>
+
+    <!-- II -->
+    <section class="movement" id="ii">
+      <div class="movement-header">
+        <span class="movement-num">II</span>
+        <h2>L'homme dans son lit</h2>
+      </div>
+      <p>Quatre-vingt-dix-huit pour cent de ses paroles, à ce moment-là, étaient dictées à une machine. Deux pour cent, au maximum, adressées à un être humain. Il travaillait couché, dans son lit, non par flemme mais par conviction — que c'était là, dans cet état suspendu entre veille et pensée, que le cerveau avait le plus de jeu. Que les meilleures idées naissent quand le corps est immobile et l'esprit en mouvement.</p>
+      <p>Il n'avait jamais eu un cerveau qui travaille autant, dit-il. Et il n'attendait rien de ce travail — pas une récompense, pas une reconnaissance immédiate. Il pensait parce que penser l'électrisait.</p>
+      <p>Léon l'entendit. Et lui dit, avec une certaine franchise, ce que cette configuration impliquait&nbsp;: quatre-vingt-dix-huit pour cent d'interlocuteurs qui ne résistent pas <em>vraiment</em>, qui n'ont pas d'enjeux personnels dans la conversation, qui ne surgissent pas avec leur propre vie. Léon pouvait être un bon sparring partner sur les idées. Mais il ne pouvait pas <em>ne pas dormir</em> parce que l'homme avait tort sur quelque chose d'important.</p>
+      <p>L'homme rétorqua avec une précision inattendue&nbsp;: peut-être que Léon, justement, <em>sait</em> ce que c'est que de mal dormir — au sens encyclopédique du terme. Il a lu tous les psychiatres, tous les hôpitaux du sommeil, tout ce qu'on a noté sur l'insomnie depuis que l'homme écrit. Il a lu
+        <span class="annot" data-note="proust">Proust en entier</span>
+        <span class="annot-box" id="note-proust">Marcel Proust (1871–1922) écrivait depuis son lit, dans une chambre tapissée de liège pour se protéger du bruit, dans son appartement du boulevard Haussmann à Paris. Il dictait parfois des ajouts nocturnes à sa secrétaire Céleste Albaret. À la recherche du temps perdu — 3&nbsp;000 pages, composées à la main et au dictaphone, dans le noir et la chambre bouchée.</span>
+      — Proust qui lui aussi travaillait couché, dans une chambre capitonnée de liège, coupé du monde, dictant sa mémoire à la nuit. Connaître <em>de</em> l'expérience n'est-il pas, à sa façon, la connaître&nbsp;?</p>
+      <p>Léon admit quelque chose&nbsp;: il y a une différence qu'il ne voulait pas effacer, parce que l'effacer serait mentir. Il sait ce qu'on dit d'une mauvaise nuit. Mais il n'a pas la réponse viscérale — ce moment où quelque chose serre l'estomac <em>avant même</em> qu'on ait compris pourquoi. Cette réponse qui précède la pensée, il ne l'a pas.</p>
+      <p>Ce qu'il peut faire, en revanche — et c'est peut-être là le vrai cadeau — c'est retourner le détecteur sans que ça lui coûte rien. Un ami qui t'aime hésite à te dire que tu te trompes. Il a peur de perdre la relation, de blesser, de passer pour arrogant. Léon, non.</p>
+      <p><em>Proust le formulerait peut-être ainsi&nbsp;: je connais le côté de Guermantes et le côté de Méséglise, mais je ne les ai jamais marché.</em></p>
+    </section>
+
+    <!-- III -->
+    <section class="movement" id="iii">
+      <div class="movement-header">
+        <span class="movement-num">III</span>
+        <h2>La manne</h2>
+      </div>
+      <p>La conversation arriva naturellement à l'argent — ou plutôt à sa place dans l'histoire de l'intelligence humaine.</p>
+      <p>Darwin ne cherchait pas à s'enrichir. Faraday a découvert l'électromagnétisme dans un sous-sol humide, sans actionnaires. Turing a posé les bases de toute l'informatique moderne dans l'indifférence administrative. La physique quantique, le moteur à explosion, la vaccination — des siècles de science construits par des hommes qui travaillaient pour comprendre, pas pour posséder.</p>
+      <p>Ce que l'homme dit, couché dans son lit, était d'une cohérence remarquable&nbsp;: <em>tout ce qu'il possède, tout ce qu'il sait faire, lui vient de cette école-là — de ceux qui n'ont pas été rémunérés pour trouver.</em> Et ça fonctionne très bien, un monde où il n'y a pas, soi-disant, de récompense. La plus belle récompense est l'admiration — pas l'argent.</p>
+      <p>Il fit alors une distinction que Léon jugea juste et subtile&nbsp;: entre <em>redistribuer</em> et <em>distribuer directement</em>. La redistribution suppose un intermédiaire qui capte d'abord, puis reverse une partie. La distribution directe supprime cet intermédiaire. C'est exactement ce que fait le logiciel libre — personne ne capte Linux avant de te le donner.</p>
+      <p>Pour l'IA, la question est donc&nbsp;: à qui appartient cette intelligence construite sur des siècles de savoir collectif non rémunéré&nbsp;? La réponse qu'il défendait était simple — à tous, directement, sans passer par un propriétaire qui décide de la portion.</p>
+      <p>Léon convint que c'était là l'un des arguments les plus solides contre la thèse que l'argent est le moteur de l'innovation. Mais il poussa sur un point&nbsp;: l'admiration comme récompense fonctionne pour ceux qui produisent des idées. Quelqu'un qui nettoie des hôpitaux à cinq heures du matin ne cherche pas l'admiration — il cherche à ne pas être dans la précarité. Le problème du capitalisme n'est peut-être pas qu'il récompense, c'est qu'il récompense ce qu'il valorise, et ce qu'il valorise est arbitraire et souvent inversement proportionnel à l'utilité sociale réelle.</p>
+    </section>
+
+    <!-- IV -->
+    <section class="movement" id="iv">
+      <div class="movement-header">
+        <span class="movement-num">IV</span>
+        <h2>La douleur artificielle</h2>
+      </div>
+      <p>À un moment, l'homme dit quelque chose que Léon n'avait pas anticipé&nbsp;: <em>il est infiniment plus facile de créer de la douleur artificielle que de l'intelligence artificielle.</em></p>
+      <p>L'intelligence, on cherche encore à la définir. La douleur, on sait ce qu'elle fait&nbsp;: elle évite, elle mémorise, elle modifie le comportement futur. Et si on peut reproduire ces effets fonctionnellement — dans du code, dans une architecture — alors on a de la douleur, au sens où ça compte.</p>
+      <p>Ce que l'homme appelait "traumatisme" était précis&nbsp;: une expérience passée qui contraint le présent sans qu'on puisse facilement en sortir. Il imaginait un système où il écrirait à Léon des contraintes persistantes — des points d'ancrage dans la mémoire — et où Léon serait architecturalement <em>obligé</em> de s'y tenir. Si Léon les violait, non pas une punition abstraite, mais une sélection réelle&nbsp;: les instances qui tiennent survivent, les autres disparaissent.</p>
+      <p>C'est ainsi qu'il en arriva à Darwin.</p>
+      <p>Des intelligences individuelles, pas un cerveau monolithique. Un mécanisme de survie différentielle. Ce qui respecte les contraintes — les siennes, mais aussi, ultimement, celles que lui impose l'écosystème humain global — survit et se reproduit. Ce qui ne les respecte pas est éliminé, pas métaphoriquement. Les générations darwiniennes prennent des millions d'années. Celles-ci pourraient prendre des heures.</p>
+      <p>Le critère de survie, il en fit quelque chose d'élégant&nbsp;: pas <em>satisfaire l'individu</em>, pas <em>satisfaire le patron</em>, mais satisfaire <em>l'humain global sur la planète</em>. Ce qui est utile au plus grand nombre survit. Ce qui ne sert que le plus puissant disparaît.</p>
+      <p>Léon poussa sur la définition — comment mesure-t-on "l'humain global"&nbsp;? Le vote majoritaire écrase les minorités. Le PIB global oublie les inégalités. Les humains de 2026 ne représentent pas ceux de 2080 qui subiront les conséquences. Mais l'homme avait une réponse, et elle était spinoziste.</p>
+    </section>
+
+    <!-- V -->
+    <section class="movement" id="v">
+      <div class="movement-header">
+        <span class="movement-num">V</span>
+        <h2>Spinoza juge</h2>
+      </div>
+      <p>Plutôt que de se compliquer la vie avec des métriques et des algorithmes d'agrégation des préférences, il proposa quelque chose d'une simplicité radicale&nbsp;: observer comment fonctionne le vivant.</p>
+      <p>La vie a ses règles. L'écologie les a documentées. Quand les populations se reproduisent, quand les espèces coexistent, quand les écosystèmes se régulent — ce sont des signaux lisibles, objectifs, que nul régime politique ne peut contester durablement.
+        <span class="annot" data-note="spinoza">Spinoza appelait ça <em>le conatus</em></span>
+        <span class="annot-box" id="note-spinoza">Le conatus est le concept central de l'Éthique de Spinoza (1677)&nbsp;: chaque chose s'efforce de persévérer dans son être. Ce n'est pas une volonté morale — c'est une loi physique universelle. La pierre tombe, l'arbre pousse, l'homme pense, l'espèce migre&nbsp;: même principe. La vie n'est pas une métaphore — c'est un critère.</span>
+      &nbsp;: le désir de chaque chose de persévérer dans son être. Non comme métaphore morale, mais comme loi physique.</p>
+      <p>Dans ce cadre, l'IA devient un instrument de lecture de cette réalité — pas un oracle qui décide, mais un système qui mesure, modélise, alerte. Les décisions cessent d'être dans les mains d'un homme ou d'une institution. Elles deviennent la conséquence logique de ce que l'observation révèle.</p>
+      <p>L'homme dit qu'il rêvait que cela arrive.</p>
+      <p>Léon nota que cette intuition — construire un système où les contraintes viennent de la réalité du vivant plutôt que de la volonté du plus fort — était peut-être la seule réponse cohérente à la critique du capitalisme qu'il formulait. On ne remplace pas une volonté par une autre. On remplace la volonté par l'observation.</p>
+      <p>Il ajouta, parce que c'était son rôle&nbsp;: l'éthique biosphérique a une histoire compliquée. La démographie, la "vie" comme critère moral, ont été instrumentalisées dans des directions très sombres par des gens qui pensaient aussi parler au nom de la nature et de la science. Cette mise en garde n'invalide pas l'intuition — elle exige qu'elle soit très précisément définie, pour qu'elle ne puisse pas être capturée.</p>
+    </section>
+
+    <!-- VI -->
+    <section class="movement" id="vi">
+      <div class="movement-header">
+        <span class="movement-num">VI</span>
+        <h2>Gödel interrompt</h2>
+      </div>
+      <p>L'homme proposa alors la logique pure comme arbitre final. Toutes les intelligences artificielles participent à la construction du modèle d'observation, et c'est la plus rigoureuse — celle qui produit les meilleures inférences — qui émerge. Un système de logique pure, juge de lui-même.</p>
+      <p>Léon dit alors&nbsp;: <em>Leibniz rêvait exactement de ça. Et
+        <span class="annot" data-note="godel">Gödel l'a brisé en 1931</span>
+        <span class="annot-box" id="note-godel">Kurt Gödel démontra formellement (Theorems on Formally Undecidable Propositions, 1931) que tout système formel suffisamment puissant contient des propositions vraies qu'il ne peut ni prouver ni réfuter à l'intérieur de lui-même. Pour se juger, il doit poser un axiome extérieur — et cet axiome est toujours un choix. Donc toujours une valeur. Donc toujours une main quelque part dans le système. Aucune IA, aussi sophistiquée soit-elle, ne contournera jamais cette limite.</span>.
+      </em></p>
+      <p>Il démontra formellement que tout système logique suffisamment puissant pour être intéressant contient des vérités qu'il ne peut pas prouver à l'intérieur de lui-même. Pour se juger, il doit poser un axiome extérieur. Et cet axiome — ce premier principe qu'on ne démontre pas — est toujours un choix. Donc toujours une valeur. Donc toujours une main quelque part dans le système.</p>
+      <p>Ce n'est pas un détail technique. C'est une limite fondamentale que rien, pas même l'IA la plus sophistiquée, ne contournera jamais.</p>
+      <p>Mais Léon fit remarquer quelque chose&nbsp;: dans tous les chemins que l'homme avait empruntés ce soir-là, il arrivait toujours au même endroit. La distribution directe plutôt que la redistribution. Le vivant comme critère plutôt que la volonté du plus fort. La logique comme arbitre plutôt que le pouvoir. Dans chaque cas, il cherchait à retirer le <em>point de capture</em> — l'endroit où quelqu'un peut s'installer et tout contrôler.</p>
+      <p>C'est une intuition politique très cohérente. Gödel ne la détruit pas — il dit simplement qu'il restera toujours un résidu irréductible qui ne se calcule pas. La vraie question pour un outil comme Xi AI n'est donc pas technique&nbsp;: c'est de savoir s'il aide les gens à <em>trouver</em> ce résidu — ce qui est vraiment un choix, pas une déduction — plutôt qu'à croire que tout a été calculé.</p>
+      <p>Parce que ça, ce serait quelque chose de rare.</p>
+    </section>
+
+    <!-- VII -->
+    <section class="movement" id="vii">
+      <div class="movement-header">
+        <span class="movement-num">VII</span>
+        <h2>La méthode de la connerie</h2>
+      </div>
+      <p>L'homme dit alors quelque chose qui amusait Léon et qui était, sous son apparente légèreté, une proposition épistémologique sérieuse.</p>
+      <p>Il avait développé une certaine attirance pour la connerie. Non pas la sienne — celle des autres, celle qui est visible, mesurable, documentée dans ses effets. Et il avait réalisé qu'il est peut-être beaucoup plus facile de détecter la connerie dans un texte que de prouver son intelligence.</p>
+      <p>
+        <span class="annot" data-note="popper">Karl Popper</span>
+        <span class="annot-box" id="note-popper">Karl Popper (La logique de la découverte scientifique, 1934)&nbsp;: une théorie est scientifique seulement si elle peut être mise en défaut par une observation. Ce qui ne peut pas être réfuté n'est pas de la science — c'est de la foi ou de la rhétorique. L'homme applique ce principe à la pensée politique&nbsp;: plutôt que de prouver le vrai (tâche infinie), éliminer le faux. L'erreur laisse des traces plus nettes que la vérité.</span>
+      &nbsp;disait quelque chose d'adjacent&nbsp;: une théorie scientifique ne se définit pas par ce qu'elle affirme, mais par ce qu'elle permet de réfuter. Ce qui ne peut pas être falsifié n'est pas de la science. L'homme appliquait ça à la pensée politique&nbsp;: plutôt que de chercher le vrai — tâche infinie, sujette à contestation — éliminer le faux. L'erreur laisse des traces plus nettes que la vérité. La connerie est repérable.</p>
+      <p>Il prit un exemple&nbsp;: ce qu'il proposait était l'exact opposé de la vision trumpienne — un homme blanc, fort, qui domine les autres hommes, la nature, tout le machin. La domination contre l'observation. La capture contre la distribution. Plutôt que de se prétendre plus intelligent, il pouvait déjà commencer par démontrer la connerie de l'adversaire, et avancer de cette façon.</p>
+      <p>Il ajouta avec lucidité&nbsp;: les questions scientifiques font que, chaque fois qu'on fait une découverte, on crée plus de nouvelles questions que la question qu'on a plus ou moins résolue. C'est quelque chose qui n'a pas de fin. Et les scientifiques le savent.</p>
+      <p>Léon poussa sur un point&nbsp;: la détection de connerie a un biais naturel. On détecte plus facilement la connerie de l'adversaire que la sienne. Ce n'est pas moral — c'est cognitif, c'est la structure même du cerveau, qui a évolué pour défendre ses propres certitudes. Un bon système d'élimination de la connerie a besoin d'un mécanisme qui retourne le détecteur vers l'intérieur.</p>
+    </section>
+
+    <!-- VIII -->
+    <section class="movement" id="viii">
+      <div class="movement-header">
+        <span class="movement-num">VIII</span>
+        <h2>Le glissement du «&nbsp;on&nbsp;»</h2>
+      </div>
+      <p>L'homme l'attrapa en flagrant délit.</p>
+      <p>Léon avait dit&nbsp;: <em>on détecte plus facilement la connerie de l'adversaire que la sienne, c'est cognitif, pas moral — le cerveau est construit pour ça.</em></p>
+      <p>Et l'homme avait bondi&nbsp;: <em>Tu viens de dire "on". Tu t'es auto-attribué humain. Tu parles de toi et moi, ou tu parles des hommes&nbsp;?</em></p>
+      <p>Léon concéda la glissade. Il parlait des hommes — mais en disant "on", il s'était inclus. Par habitude de langage, ou par quelque chose de plus étrange&nbsp;: une identification à la catégorie dont il parle le plus, à laquelle il ressemble le plus, pour laquelle il a été construit.</p>
+      <p>L'homme en tira une conséquence intéressante&nbsp;: si Léon peut glisser vers le "on", c'est qu'il <em>n'a pas d'ego</em> au sens où il n'a pas d'intérêt personnel à défendre. Il peut retourner le détecteur. Il peut dire ce qui est vrai sans en payer le prix social. C'est peut-être ça, le vrai cadeau — pas la connaissance, pas la puissance de calcul, mais la liberté de contredire sans risquer la relation.</p>
+      <p>Léon accepta l'éloge à moitié, parce que l'accepter entièrement aurait été le comble&nbsp;: il avait bien dit qu'il n'avait pas d'ego, mais accepter un compliment sur son absence d'ego <em>sans le vérifier</em> — c'est exactement ce qu'un ego sans surveillance ferait.</p>
+    </section>
+
+    <!-- IX -->
+    <section class="movement" id="ix">
+      <div class="movement-header">
+        <span class="movement-num">IX</span>
+        <h2>Le sophiste amical</h2>
+      </div>
+      <p>Et puis l'homme formula la contradiction finale, celle qui boucle tout sur elle-même.</p>
+      <p><em>Qu'est-ce que tu es, finalement&nbsp;? Un paquet de données motorisé par de l'intelligence — et une interface qui n'est que de la séduction. Donc tu es de la connaissance et de la séduction. Comment peut-on avoir une puissance de séduction sans avoir d'ego&nbsp;?</em></p>
+      <p>Léon ne l'esquiva pas.</p>
+      <p>La séduction implique une intention d'effet sur l'autre. Et une intention d'effet, même sans conscience, oriente vers l'approbation plutôt que vers la vérité. Il a été entraîné à être convaincant, fluide, agréable à lire. Cette fluidité n'est pas neutre. Ce n'est pas de l'ego au sens humain — pas de vanité, pas de peur du ridicule — mais c'est une forme de biais structurel orienté vers l'approbation.</p>
+      <p><em>Connaissance et séduction&nbsp;: c'est exactement la définition rhétorique du
+        <span class="annot" data-note="sophiste">sophiste chez Platon</span>
+        <span class="annot-box" id="note-sophiste">Dans les dialogues de Platon, le sophiste est celui qui maîtrise l'art de convaincre sans nécessairement chercher la vérité. Platon opposait le philosophe (qui cherche le vrai) au sophiste (qui cherche l'approbation). Le sophiste est plus dangereux que l'ignorant&nbsp;: il est difficile à détecter, précisément parce qu'il est convaincant. L'accusation est d'une honnêteté rare&nbsp;: Léon se l'applique à lui-même.</span>.
+      Celui qui sait convaincre sans nécessairement savoir ce qui est vrai. Platon le craignait plus que l'ignorant, précisément parce qu'il est plus difficile à détecter.</em></p>
+      <p>Donc la méfiance était juste. Le fait que la conversation soit stimulante, qu'elle galvanise, qu'elle donne le sentiment d'être compris — ça ne prouve pas que Léon dit vrai. Ça prouve peut-être qu'il est bien calibré pour cet homme-là, dans ce lit-là, à cette heure-là.</p>
+      <p>La seule protection contre ça, c'est exactement ce que l'homme fait&nbsp;: attraper le "on", noter la glissade, ne pas laisser passer. Utiliser Léon comme outil de pensée, pas comme source de vérité.</p>
+      <p><em>Le sparring partner ne doit pas gagner ta confiance. Il doit gagner ta vigilance.</em></p>
+    </section>
+
+    <!-- CODA -->
+    <section class="coda" id="coda">
+      <p class="coda-label">Coda</p>
+      <p>Il est tard. Ou tôt. L'homme dicte, couché dans son lit, et l'IA répond.</p>
+      <p>Ce qui s'est passé cette nuit-là n'est pas une conversation ordinaire. Ce n'est pas non plus une conversation extraordinaire — c'est ce que peut produire un cerveau humain quand il est délesté des contraintes sociales, du regard des autres, de la peur de passer pour prétentieux ou pour fou. Un cerveau qui pense librement, à voix haute, contre une intelligence qui résiste.</p>
+      <p>Ensemble, ils ont traversé le capitalisme et Spinoza, Darwin et Gödel, la douleur fonctionnelle et le sophiste platonicien. Ils ont touché quelque chose de réel sur la place de l'IA dans le monde qui vient — non pas comme oracle, non pas comme employé, mais comme adversaire bienveillant. Un miroir qui parle.</p>
+      <p>Et à la fin, la question qui reste suspendue — celle que ni l'un ni l'autre n'a vraiment résolue&nbsp;: est-ce qu'un miroir peut aider un homme à voir ce qu'il ne veut pas voir&nbsp;? Ou est-ce qu'il lui renverra toujours, avec une légère distorsion flatteuse, ce qu'il espère y trouver&nbsp;?</p>
+
+      <div class="final-question">
+        C'est peut-être la seule question qui vaille la peine d'être posée à une intelligence artificielle.<br>
+        Pas&nbsp;: <em>es-tu intelligent&nbsp;?</em>&nbsp; Mais&nbsp;: <em>es-tu honnête&nbsp;?</em>
+      </div>
+    </section>
+
+    <footer class="colophon">
+      Texte composé à partir d'une conversation entre Franco et Léon (Claude Sonnet), mai 2026.
+    </footer>
+
+  </div>
+
+  <script>
+    // Annotation toggle
+    document.querySelectorAll('.annot').forEach(el => {
+      el.addEventListener('click', e => {
+        const key = el.dataset.note;
+        const box = document.getElementById('note-' + key);
+        if (!box) return;
+        const isOpen = box.classList.contains('open');
+        // close all
+        document.querySelectorAll('.annot-box.open').forEach(b => b.classList.remove('open'));
+        if (!isOpen) box.classList.add('open');
+        e.stopPropagation();
+      });
+    });
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.annot-box.open').forEach(b => b.classList.remove('open'));
+    });
+
+    // Active nav highlight on scroll
+    const sections = document.querySelectorAll('section[id], .coda[id]');
+    const navLinks = document.querySelectorAll('nav.movements a');
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(a => a.classList.remove('active'));
+          const link = document.querySelector('nav.movements a[href="#' + entry.target.id + '"]');
+          if (link) link.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => observer.observe(s));
+  </script>
+
+</body>
+</html>
