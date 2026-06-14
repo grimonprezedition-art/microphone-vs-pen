@@ -648,6 +648,7 @@
     words written in <strong id="elapsedDays">—</strong> days
     &nbsp;·&nbsp;
     <strong id="rateDisplay">—</strong> words / day
+    &nbsp;·&nbsp; <strong>159 wpm</strong> &nbsp;·&nbsp; <strong>16-day streak</strong>
   </div>
   <div class="hero-updated" id="heroUpdated"></div>
 </div>
@@ -738,7 +739,7 @@
   <img src="Logo-GenSpark-1.png" alt="Genspark Speakly" class="share-logo-big"
        onerror="this.style.display='none'">
   <div class="share-text">
-    These <strong id="shareCount">533,000</strong> words were dictated out loud — not typed.
+    These <strong id="shareCount">602,900</strong> words were dictated out loud — not typed.
     <strong>Genspark Speakly</strong> turns spoken thought into structured text.
     That's the starting point for every prompt.
     If you try it, <strong>we both get a free month</strong>.
@@ -768,8 +769,8 @@
 // ════════════════════════════════════════════════════
 const TOTAL       = 1500000;
 const START_ISO   = '2026-03-14';
-const INIT_W      = 533000;
-const INIT_DATE   = '2026-05-26';
+const INIT_W      = 602900;
+const INIT_DATE   = '2026-05-12';
 const PROUST_RATE = 316; // words/day — 1,500,000 / ~4,748 days (1909–1922)
 
 const VOLS = [
@@ -997,20 +998,6 @@ document.getElementById('wInput').addEventListener('keydown', e => { if(e.key===
   if (!cur || INIT_DATE > cur.d) addEntry(INIT_W, INIT_DATE);
   render();
   document.getElementById('dayMarker').textContent = 'Day ' + elapsed() + ' — started March 14, 2026';
-})();
-
-// LIVE SYNC — Genspark API via proxy romantyper.xyz
-// Screenshot Genspark Speakly → lecture chiffre → mise à jour auto
-(function() {
-    fetch('https://romantyper.xyz/genspark_words.php')
-        .then(function(r) { return r.json(); })
-        .then(function(d) {
-            if (d.ok && d.words > 0) {
-                addEntry(d.words, d.date);
-                render();
-            }
-        })
-        .catch(function() {}); // silent fail — INIT_W est le fallback
 })();
 </script>
 </body>
