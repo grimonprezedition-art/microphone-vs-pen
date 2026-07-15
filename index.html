@@ -405,7 +405,7 @@
   }
   .dard-bar-fill {
     height: 100%;
-    background: var(--muted);
+    background: #E8931D;
     border-radius: 1px;
     transition: width 0.7s ease;
   }
@@ -804,6 +804,11 @@
 <div class="proj-days" id="projDaysTxt"></div>
 <div class="trend-line" id="trendLine"></div>
 
+<!-- DARD PROJECTION -->
+<div class="proj-lbl" style="margin-top:40px;">Frédéric Dard — At This Rate</div>
+<div class="proj-date-big" id="dardProjDateBig" style="font-size:clamp(28px,4vw,48px);color:var(--muted)">—</div>
+<div class="proj-days" id="dardProjDaysTxt"></div>
+
 <!-- ACCORDION -->
 <div class="accordion-wrap">
   <details>
@@ -1065,6 +1070,8 @@ function render() {
   const dardEnd = addDaysToNow(dardDaysLeft);
   document.getElementById('dardProj').textContent =
     'At this rate — Frédéric Dard reached: ' + fmtDate(dardEnd) + ' (' + Math.round(dardDaysLeft / 365.25 * 10) / 10 + ' years)';
+  document.getElementById('dardProjDateBig').textContent = fmtDate(dardEnd).toUpperCase();
+  document.getElementById('dardProjDaysTxt').textContent = 'In ' + fmt(dardDaysLeft) + ' days';
 }
 
 // ════════════════════════════════════════════════════
