@@ -1117,10 +1117,10 @@ function render() {
   document.getElementById('dardProjDaysTxt').textContent = 'In ' + fmt(dardDaysLeft) + ' days';
 
   // Footnote — literary equivalent at ×5.7 ratio
-  const LIT_RATIO  = 5.7;
-  const litWords   = Math.round(w * LIT_RATIO);
-  const proustMult = (litWords / TOTAL).toFixed(1);
-  const dardPct    = Math.round(litWords / DARD_TOTAL * 100);
+  const LIT_RATIO    = 5.7;
+  const litWords     = Math.round(w * LIT_RATIO);
+  const proustMult   = (litWords / TOTAL).toFixed(1);
+  const dardPctLit   = Math.round(litWords / DARD_TOTAL * 100);
   const fnW = document.getElementById('fnWords');
   const fnL = document.getElementById('fnLitWords');
   const fnP = document.getElementById('fnProustRatio');
@@ -1128,7 +1128,7 @@ function render() {
   if (fnW) fnW.textContent = fmt(w);
   if (fnL) fnL.textContent = fmt(litWords);
   if (fnP) fnP.textContent = '×' + proustMult;
-  if (fnD) fnD.textContent = dardPct + '%';
+  if (fnD) fnD.textContent = dardPctLit + '%';
 }
 
 // ════════════════════════════════════════════════════
