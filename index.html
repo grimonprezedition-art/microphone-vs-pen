@@ -612,6 +612,27 @@
     margin-bottom: 16px;
   }
   .footnote strong { color: var(--black); font-weight: 500; }
+  .footnote-stats {
+    display: flex;
+    gap: 48px;
+    margin-bottom: 28px;
+  }
+  .footnote-stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 48px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--black);
+    line-height: 1;
+  }
+  .footnote-stat-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 4px;
+  }
 
   /* ── CREDITS ─────────────────────────────────────────────── */
   .credits {
@@ -862,6 +883,18 @@
 <!-- FOOTNOTE -->
 <div class="footnote">
   <div class="footnote-title">A note on method</div>
+
+  <div class="footnote-stats">
+    <div>
+      <div class="footnote-stat-num" id="fnProustRatio">—</div>
+      <div class="footnote-stat-label">times the complete works of Proust</div>
+    </div>
+    <div>
+      <div class="footnote-stat-num" id="fnDardPct">—</div>
+      <div class="footnote-stat-label">of Frédéric Dard's complete works</div>
+    </div>
+  </div>
+
   The numbers on this page count dictated words — prompts spoken aloud, captured by Wispr Flow, sent to Claude. They are not written words in the literary sense. They are instructions. Vocal gestures. The difference matters.
 
   <br><br>
@@ -870,7 +903,7 @@
 
   <br><br>
 
-  Applied to the <strong id="fnWords">—</strong> words counted here, the corrected literary equivalent is approximately <strong id="fnLitWords">—</strong> words — or roughly <strong id="fnProustRatio">—</strong> times the complete text of <em>In Search of Lost Time</em>.
+  Applied to the <strong id="fnWords">—</strong> words counted here, the corrected literary equivalent is approximately <strong id="fnLitWords">—</strong> words — or roughly that many times the complete text of <em>In Search of Lost Time</em>.
 
   <br><br>
 
@@ -878,7 +911,7 @@
 
   <br><br>
 
-  Frédéric Dard wrote an estimated <strong>10,000,000 words</strong> over fifty-one years. At the same ratio, the dictation logged here already represents <strong id="fnDardPct">—</strong> of his complete works — not in words spoken, but in words that could have been written from them.
+  Frédéric Dard wrote an estimated <strong>10,000,000 words</strong> over fifty-one years. At the same ratio, the dictation logged here already represents a substantial share of his complete works — not in words spoken, but in words that could have been written from them.
 </div>
 
 <!-- CREDITS -->
