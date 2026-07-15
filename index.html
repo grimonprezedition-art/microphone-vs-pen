@@ -903,7 +903,7 @@
 
   <br><br>
 
-  Applied to the <strong id="fnWords">—</strong> words counted here, the corrected literary equivalent is approximately <strong id="fnLitWords">—</strong> words — or roughly that many times the complete text of <em>In Search of Lost Time</em>.
+  Applied to the <strong id="fnWords">—</strong> words counted here, the corrected literary equivalent is approximately <strong id="fnLitWords">—</strong> words — roughly <strong id="fnProustRatio2">—</strong> times the complete text of <em>In Search of Lost Time</em>.
 
   <br><br>
 
@@ -1162,6 +1162,8 @@ function render() {
   if (fnL) fnL.textContent = fmt(litWords);
   if (fnP) fnP.textContent = '×' + proustMult;
   if (fnD) fnD.textContent = dardPctLit + '%';
+  const fnP2 = document.getElementById('fnProustRatio2');
+  if (fnP2) fnP2.textContent = '×' + proustMult;
 }
 
 // ════════════════════════════════════════════════════
