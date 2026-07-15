@@ -592,6 +592,27 @@
     flex-shrink: 0;
   }
 
+  /* ── NOTE DE BAS DE PAGE ─────────────────────────────────── */
+  .footnote {
+    margin-top: 64px;
+    padding-top: 28px;
+    border-top: 1px solid var(--track);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    line-height: 1.75;
+    max-width: 640px;
+  }
+  .footnote-title {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .footnote strong { color: var(--black); font-weight: 500; }
+
   /* ── CREDITS ─────────────────────────────────────────────── */
   .credits {
     margin-top: 56px;
@@ -838,6 +859,28 @@
   </a>
 </div>
 
+<!-- FOOTNOTE -->
+<div class="footnote">
+  <div class="footnote-title">A note on method</div>
+  The numbers on this page count dictated words — prompts spoken aloud, captured by Wispr Flow, sent to Claude. They are not written words in the literary sense. They are instructions. Vocal gestures. The difference matters.
+
+  <br><br>
+
+  In the course of writing <em>Hard Reset</em>, a novel in progress, a ratio emerged: <strong>one dictated word produces roughly six words of literary output</strong>. The spoken prompt compresses; the text expands. An intention of fifty words becomes a paragraph of three hundred. This is not amplification by volume — it is amplification by precision. The mouth gives a direction. The page gives a body.
+
+  <br><br>
+
+  Applied to the <strong id="fnWords">—</strong> words counted here, the corrected literary equivalent is approximately <strong id="fnLitWords">—</strong> words — or roughly <strong id="fnProustRatio">—</strong> times the complete text of <em>In Search of Lost Time</em>.
+
+  <br><br>
+
+  Proust wrote <strong>1,500,000 words</strong> by hand over thirteen years. At the dictation-to-literature ratio measured here, that threshold was crossed long before this page announced it. The bar on this tracker shows the raw count of what was spoken. What was written is another story — literally.
+
+  <br><br>
+
+  Frédéric Dard wrote an estimated <strong>10,000,000 words</strong> over fifty-one years. At the same ratio, the dictation logged here already represents <strong id="fnDardPct">—</strong> of his complete works — not in words spoken, but in words that could have been written from them.
+</div>
+
 <!-- CREDITS -->
 <div class="credits">
   Created with <a href="https://claude.ai" target="_blank" rel="noopener">Claude</a> by François Grimonprez
@@ -1072,6 +1115,20 @@ function render() {
     'At this rate — Frédéric Dard reached: ' + fmtDate(dardEnd) + ' (' + Math.round(dardDaysLeft / 365.25 * 10) / 10 + ' years)';
   document.getElementById('dardProjDateBig').textContent = fmtDate(dardEnd).toUpperCase();
   document.getElementById('dardProjDaysTxt').textContent = 'In ' + fmt(dardDaysLeft) + ' days';
+
+  // Footnote — literary equivalent at ×5.7 ratio
+  const LIT_RATIO  = 5.7;
+  const litWords   = Math.round(w * LIT_RATIO);
+  const proustMult = (litWords / TOTAL).toFixed(1);
+  const dardPct    = Math.round(litWords / DARD_TOTAL * 100);
+  const fnW = document.getElementById('fnWords');
+  const fnL = document.getElementById('fnLitWords');
+  const fnP = document.getElementById('fnProustRatio');
+  const fnD = document.getElementById('fnDardPct');
+  if (fnW) fnW.textContent = fmt(w);
+  if (fnL) fnL.textContent = fmt(litWords);
+  if (fnP) fnP.textContent = '×' + proustMult;
+  if (fnD) fnD.textContent = dardPct + '%';
 }
 
 // ════════════════════════════════════════════════════
