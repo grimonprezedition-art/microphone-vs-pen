@@ -98,6 +98,11 @@
     height: 192px;
   }
 
+  .portrait-frame.dard-frame {
+    width: 148px;
+    height: 148px;
+  }
+
   .portrait-frame.franco-frame {
     width: 148px;
     height: 148px;
@@ -358,6 +363,65 @@
     font-style: italic;
     margin-bottom: 52px;
     font-weight: 400;
+  }
+
+  /* ── DARD BAR ───────────────────────────────────────────── */
+  .dard-section {
+    margin-top: 36px;
+    padding-top: 24px;
+    border-top: 1px solid var(--track);
+    margin-bottom: 36px;
+    opacity: 0.72;
+  }
+  .dard-section:hover { opacity: 1; transition: opacity 0.2s; }
+
+  .dard-bar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 8px;
+  }
+  .dard-lbl {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .dard-pct {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: -0.01em;
+  }
+  .dard-bar-track {
+    width: 100%;
+    height: 2px;
+    background: var(--track);
+    border-radius: 1px;
+    margin-bottom: 6px;
+    overflow: hidden;
+  }
+  .dard-bar-fill {
+    height: 100%;
+    background: var(--muted);
+    border-radius: 1px;
+    transition: width 0.7s ease;
+  }
+  .dard-bar-ends {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10px;
+    font-weight: 400;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .dard-proj {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-top: 4px;
   }
 
   /* ── DIVIDER ─────────────────────────────────────────────── */
@@ -623,6 +687,17 @@
   </div>
 
   <div class="portrait-block">
+    <div class="portrait-frame bw dard-frame">
+      <img src="dard.jpg" alt="Frédéric Dard"
+           style="object-position: center 15%;"
+           onerror="this.style.display='none';document.getElementById('phd').style.display='flex'">
+      <div class="portrait-placeholder" id="phd" style="display:none">FD</div>
+    </div>
+    <div class="portrait-name">Frédéric Dard</div>
+    <div class="portrait-meta">1921 – 2000<br>51 years of writing</div>
+  </div>
+
+  <div class="portrait-block">
     <div class="portrait-frame franco-frame">
       <img src="franco.png" alt="You"
            style="object-position: center 5%;"
@@ -703,6 +778,22 @@
 <div class="vol-labels" id="volLabels"></div>
 <div class="active-vol-line">Current volume · <strong id="volName"></strong></div>
 <div class="proust-dates-line" id="proustDatesTxt"></div>
+
+<!-- DARD BAR -->
+<div class="dard-section">
+  <div class="dard-bar-header">
+    <span class="dard-lbl">vs. Frédéric Dard — complete works (~10,000,000 words)</span>
+    <span class="dard-pct" id="dardPct">—</span>
+  </div>
+  <div class="dard-bar-track">
+    <div class="dard-bar-fill" id="dardBarFill" style="width:0%"></div>
+  </div>
+  <div class="dard-bar-ends">
+    <span>0</span>
+    <span>10,000,000</span>
+  </div>
+  <div class="dard-proj" id="dardProj">—</div>
+</div>
 
 <!-- DIVIDER -->
 <hr class="sep">
@@ -964,6 +1055,16 @@ function render() {
 
   document.getElementById('accBody').innerHTML = buildAccordion(w, d, rate);
   document.getElementById('shareCount').textContent = fmt(w);
+
+  // Dard bar
+  const DARD_TOTAL = 10000000;
+  const dardPct = w / DARD_TOTAL * 100;
+  document.getElementById('dardPct').textContent = dardPct.toFixed(1) + '%';
+  document.getElementById('dardBarFill').style.width = Math.min(100, dardPct) + '%';
+  const dardDaysLeft = rate > 0 ? Math.round((DARD_TOTAL - w) / rate) : 99999;
+  const dardEnd = addDaysToNow(dardDaysLeft);
+  document.getElementById('dardProj').textContent =
+    'At this rate — Frédéric Dard reached: ' + fmtDate(dardEnd) + ' (' + Math.round(dardDaysLeft / 365.25 * 10) / 10 + ' years)';
 }
 
 // ════════════════════════════════════════════════════
