@@ -710,8 +710,8 @@
 
 <!-- SITE TITLE -->
 <div class="site-title">
-  2,553,270 words dictated.<br>
-  5,460,580 lines of code.
+  1,705,079 words dictated.<br>
+  3,653,741 lines of code.
 </div>
 
 <!-- USP HEADLINE -->
@@ -758,7 +758,7 @@
     words written in <strong id="elapsedDays">—</strong> days
     &nbsp;·&nbsp;
     <strong id="rateDisplay">—</strong> words / day
-    &nbsp;·&nbsp; <strong>118 wpm</strong> &nbsp;·&nbsp; <strong>24-day streak</strong>
+    &nbsp;·&nbsp; <strong>120 wpm</strong> &nbsp;·&nbsp; <strong>94-day streak</strong>
   </div>
   <div class="hero-updated" id="heroUpdated"></div>
 </div>
@@ -776,7 +776,7 @@
     <div class="compare-val">1909</div>
   </div>
   <div class="compare-row">
-    <div class="compare-lbl">Finishes</div>
+    <div class="compare-lbl" id="cmpFinLbl">Finishes</div>
     <div class="compare-val" id="cmpFin">—</div>
     <div class="compare-val">November 18, 1922 †</div>
   </div>
@@ -809,7 +809,7 @@
 </div>
 <div class="bar-ends">
   <span>0</span>
-  <span>2,553,270</span>
+  <span>1,500,000</span>
 </div>
 
 <!-- PROUST BAR -->
@@ -841,7 +841,7 @@
 <hr class="sep">
 
 <!-- PROJECTION -->
-<div class="proj-lbl">At This Rate</div>
+<div class="proj-lbl" id="projLbl">At This Rate</div>
 <div class="proj-date-big" id="projDateBig">—</div>
 <div class="proj-days" id="projDaysTxt"></div>
 <div class="trend-line" id="trendLine"></div>
@@ -868,8 +868,8 @@
   <img src="wispr-logo.svg" alt="Wispr Flow" class="share-logo-big"
        onerror="this.style.display='none'">
   <div class="share-text">
-    These <strong id="shareCount">2,028,615</strong> words were dictated out loud — not typed.
-    <strong>Wispr Flow</strong> transcribes spoken thought directly into any text field, at 118 wpm.
+    These <strong id="shareCount">1,705,079</strong> words were dictated out loud — not typed.
+    <strong>Wispr Flow</strong> transcribes spoken thought directly into any text field, at 120 wpm.
     No copy-paste. No app switching. Just speak.
     If you try it using this link, <strong>you support this project</strong>.
   </div>
@@ -922,20 +922,18 @@
 <!-- UPDATE -->
 <div class="update-row">
   <label for="wInput">Words written</label>
-  <input type="text" id="wInput" placeholder="438,900">
+  <input type="text" id="wInput" placeholder="1,705,079">
   <button onclick="doUpdate()">→</button>
 </div>
 
 <script>
-localStorage.setItem('prt_en1', JSON.stringify([{ d: '2026-09-03', w: 2028615, p: 180 }]));
-
 // ════════════════════════════════════════════════════
 //  CONFIG
 // ════════════════════════════════════════════════════
-const TOTAL       = 2553270;
+const TOTAL       = 1500000; // Proust — In Search of Lost Time
 const START_ISO   = '2026-03-14';
-const INIT_W      = 2553270;
-const INIT_DATE   = '2026-09-03';
+const INIT_W      = 1705079; // Speakly balance 602,900 + Wispr Flow 1,102,179
+const INIT_DATE   = '2026-09-23';
 const PROUST_RATE = 316; // words/day — 1,500,000 / ~4,748 days (1909–1922)
 
 const VOLS = [
@@ -954,8 +952,8 @@ const GE = ['#E8F0FE','#FCE8E6','#FEF9E0','#E6F4EA','#E8F0FE','#FCE8E6','#E6F4EA
 // ════════════════════════════════════════════════════
 //  STORAGE
 // ════════════════════════════════════════════════════
-function loadH()  { try { return JSON.parse(localStorage.getItem('prt_en1')) || []; } catch { return []; } }
-function saveH(h) { localStorage.setItem('prt_en1', JSON.stringify(h)); }
+function loadH()  { try { return JSON.parse(localStorage.getItem('prt_en2')) || []; } catch { return []; } }
+function saveH(h) { localStorage.setItem('prt_en2', JSON.stringify(h)); }
 
 function elapsed() {
   return Math.max(1, Math.round(
@@ -1112,7 +1110,10 @@ function render() {
 
   // Projection
   document.getElementById('projDateBig').textContent = fmtDate(fin).toUpperCase();
-  document.getElementById('projDaysTxt').textContent  = 'In ' + fmt(pd) + ' days';
+  const passed = w >= TOTAL;
+  document.getElementById('projLbl').textContent   = passed ? 'Proust Passed On' : 'At This Rate';
+  document.getElementById('cmpFinLbl').textContent = passed ? 'Passed Proust' : 'Finishes';
+  document.getElementById('projDaysTxt').textContent  = passed ? fmt(-pd) + ' days ago' : 'In ' + fmt(pd) + ' days';
 
   // Trend
   const tEl = document.getElementById('trendLine');
@@ -1174,7 +1175,7 @@ function render() {
 function doUpdate() {
   const raw = document.getElementById('wInput').value.replace(/\D/g,'');
   const n = parseInt(raw, 10);
-  if (!isNaN(n) && n > 0 && n <= TOTAL) {
+  if (!isNaN(n) && n > 0 && n <= 10000000) {
     addEntry(n);
     document.getElementById('wInput').value = '';
     render();
