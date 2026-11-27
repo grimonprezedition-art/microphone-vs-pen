@@ -11,6 +11,10 @@ Target output: 3,200,000 lines of code.
 
 → **Live tracker:** https://grimonprezedition-art.github.io/microphone-vs-pen/
 
+## Latest reading — 27 November 2026
+
+**2,157,035 words dictated since 14 March 2026:** 602,900 with Speakly, followed by 1,554,135 with Wispr Flow. Wispr Flow Insights: 140 words per minute and a 58-day streak. The published tracker currently has one language edition, English.
+
 ---
 
 ## The reference
