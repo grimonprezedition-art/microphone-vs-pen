@@ -1055,7 +1055,7 @@ function render() {
   document.getElementById('cmpFin').textContent  = fmtDate(fin);
   document.getElementById('cmpDur').textContent  = durBetween(new Date(START_ISO), fin);
   document.getElementById('cmpPace').textContent = fmt(rate) + ' words / day';
-  document.getElementById('portraitEnd').textContent = fmtDate(fin);
+  document.getElementById('portraitEnd').textContent = fmtDate(updDate);
 
   // Ratio
   const ratio = Math.round(rate / PROUST_RATE);
