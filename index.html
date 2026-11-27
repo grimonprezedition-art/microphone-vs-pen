@@ -705,7 +705,7 @@
 
 <!-- HEADER -->
 <div class="chapeau">
-  In Search of Lost Time &nbsp;·&nbsp; Marcel Proust &nbsp;·&nbsp; 1,500,000 words &nbsp;·&nbsp; <span id="dayMarker">Day 1 — started March 14, 2026</span>
+  In Search of Lost Time &nbsp;·&nbsp; Marcel Proust &nbsp;·&nbsp; 1,500,000 words &nbsp;·&nbsp; <span id="dayMarker">Day 259 — March 14, 2026 → November 27, 2026</span>
 </div>
 
 <!-- SITE TITLE -->
@@ -957,9 +957,10 @@ function loadH()  { try { return JSON.parse(localStorage.getItem('prt_en2')) || 
 function saveH(h) { localStorage.setItem('prt_en2', JSON.stringify(h)); }
 
 function elapsed() {
+  const readingDate = (latest() || { d: INIT_DATE }).d;
   return Math.max(1, Math.round(
-    (Date.now() - new Date(START_ISO + 'T00:00:00').getTime()) / 86400000
-  ));
+    (Date.parse(readingDate + 'T00:00:00Z') - Date.parse(START_ISO + 'T00:00:00Z')) / 86400000
+  ) + 1);
 }
 
 function projDays(w) {
@@ -1192,7 +1193,7 @@ document.getElementById('wInput').addEventListener('keydown', e => { if(e.key===
   const cur = h.length ? h[h.length - 1] : null;
   if (!cur || INIT_DATE > cur.d) addEntry(INIT_W, INIT_DATE);
   render();
-  document.getElementById('dayMarker').textContent = 'Day ' + elapsed() + ' — started March 14, 2026';
+  document.getElementById('dayMarker').textContent = 'Day ' + elapsed() + ' — March 14, 2026 → ' + fmtDate(new Date(latest().d + 'T12:00:00'));
 })();
 </script>
 </body>
